@@ -7,8 +7,24 @@ export const UserContext = createContext();
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
+  const [carrito, setCarrito] = useState([]);
   const navigate = useNavigate();
 
+
+  const simulacro = async () => {
+    const response = await fetch("http://localhost:5000/api/checkouts", {
+        method: "POST",
+        headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+        cart: carrito,
+        }),
+        });
+    let data = await response.json();
+    alert(data?.error || data.message);
+    };
 
   const logOut = () => {
     localStorage.removeItem("token");
@@ -67,7 +83,7 @@ export const UserProvider = ({ children }) => {
   };
 
   return (
-    <UserContext.Provider value={{ user, setUser, login, token, register, getUser, logOut }}>
+    <UserContext.Provider value={{ user, setUser, login, token, register, getUser, logOut, simulacro }}>
       {children}
     </UserContext.Provider>
   );
