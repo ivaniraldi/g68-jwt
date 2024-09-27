@@ -1,32 +1,34 @@
+import { useContext, useState } from "react";
 import NavBar from "../components/NavBar";
-import useInput from "../hooks/useInput";
+import { UserContext } from "../context/UserContext";
 
 const RegisterWithCustomHooks = () => {
-  const email = useInput("");
-  const password = useInput("");
+  const {register} = useContext(UserContext);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(email.value, password.value);
+    if(password !== passwordConfirm || password.length < 6){
+      alert("Passwords do not match");
+      return;
+    }else{
+      register(email, password);
+    }
   };
+  
 
   return (
-<div>
-  <NavBar></NavBar>
-<form onSubmit={handleSubmit}>
-      <input
-        type="email"
-        placeholder="Email"        
-        {...email}
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        {...password}
-      />
-      <button type="submit">Submit</button>
-    </form>
-</div>
+    <div>
+      <NavBar></NavBar>
+      <form onSubmit={handleSubmit}>
+        <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+        <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+        <input type="password" placeholder="Confirm Password"  value={passwordConfirm} onChange={(e) => setPasswordConfirm(e.target.value)} />
+        <button type="submit">Submit</button>
+      </form>
+    </div>
   );
 };
 

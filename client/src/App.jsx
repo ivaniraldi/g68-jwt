@@ -5,9 +5,11 @@ import LoginPage from "./pages/Login";
 import ProfilePage from "./pages/Profile";
 import RegisterWithCustomHooks from "./pages/RegisterWithCustomHooks";
 import { Navigate } from "react-router-dom";
+import { UserContext } from "./context/UserContext";
+import { useContext } from "react";
 
 const App = () => {
-  const token = localStorage.getItem("token");
+  const { token } = useContext(UserContext);
   return (
     <Routes>
       <Route

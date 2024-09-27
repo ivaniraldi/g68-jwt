@@ -1,37 +1,21 @@
 import NavBar from "../components/NavBar";
-
-import { useNavigate } from "react-router-dom";
 import useInput from "../hooks/useInput";
+import { UserContext } from "../context/UserContext";
+import { useContext } from "react";
 
 const Login = () => {
+  const {login} = useContext(UserContext);
   const email = useInput("");
   const password = useInput("");
 
   const emailValue = email.value;
   const passwordValue = password.value;
 
-  const navigate = useNavigate();
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const response = await fetch("http://localhost:5000/api/auth/login", 
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: emailValue,
-          password: passwordValue,
-        }),
-      }
-  );
-    const data = await response.json();
-    alert(data?.error || "Authentication successful!");
-    localStorage.setItem("token", data.token);
-    navigate("/");
-    window.location.reload();
+    login(emailValue, passwordValue);
 
-  };
+  }
 
 // localStorage.setItem("token", data.token);
 // let token = localStorage.getItem("token");

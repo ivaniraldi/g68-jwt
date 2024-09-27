@@ -1,22 +1,9 @@
 import NavBar from "../components/NavBar";
-import { useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
+import { UserContext } from "../context/UserContext";
 
 const Profile = () => {
-  const [user, setUser] = useState(null);
-
-  const getUser = async () => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      const response = await fetch("http://localhost:5000/api/auth/me", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const data = await response.json();
-      setUser(data);
-    }
-  };
+  const { getUser, user} = useContext(UserContext);
 
   useEffect(() => {
     getUser();

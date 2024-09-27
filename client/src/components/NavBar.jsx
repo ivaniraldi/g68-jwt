@@ -1,12 +1,11 @@
 import { Link } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
+import { useContext } from "react";
 export default function NavBar() {
+  const { token, logOut } = useContext(UserContext);
+  const token2 = localStorage.getItem("token");
 
-  const token = localStorage.getItem("token");
-
-  const logOut = () => {
-    localStorage.removeItem("token");
-    window.location.reload();
-  };
+  
 
 
   return (
@@ -38,21 +37,21 @@ export default function NavBar() {
               Perfil
             </Link>
           </li>
-          {token ? null : (
+          {token || token2 ? null : (
             <li className="nav-item">
               <Link className="nav-link" to="/login">
                 Iniciar Sesion
               </Link>
             </li>
           )}
-          {token ? null : (
+          {token || token2  ? null : (
             <li className="nav-item">
               <Link className="nav-link" to="/register">
                 Registrarse
               </Link>
             </li>
           )}
-          {token? <li className="nav-item">
+          {token || token2 ? <li className="nav-item">
             <button
               className="badge bg-danger p-1"
               onClick={() => {
